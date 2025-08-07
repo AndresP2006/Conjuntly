@@ -16,8 +16,9 @@ function HeaderHome() {
           </div>
 
           <ul className="flex gap-6 text-lg font-bold">
-            <li className="hover:text-amber-400 cursor-pointer">HOME</li>
-            <li className="hover:text-amber-400 cursor-pointer">CONTACT</li>
+            <li className="hover:text-amber-400 cursor-pointer">HOGAR</li>
+            <li className="hover:text-amber-400 cursor-pointer">NOSOTROS</li>
+            <li className="hover:text-amber-400 cursor-pointer">CONTACTO</li>
           </ul>
 
           <div>

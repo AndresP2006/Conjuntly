@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { showSuccess, showError } from "../../utils/Alertas";
+import { showSuccess, showError, showAlert } from "../../utils/Alertas";
 import { Api } from "../../const/Api";
+import Icons from "../../utils/Icons";
 
 function LoginForm() {
   const [usuario, setUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mostrar, setMostrar] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,15 +20,21 @@ function LoginForm() {
     });
     try {
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data.message === "Credenciales invalidas") {
-        throw new Error(data.message);
+        setUsuario("");
+        setContraseña("");
+        return showAlert("Usuario o Contraseña incorrecta");
+      }
+
+      if (data.message === "Faltan credenciales") {
+        return showAlert(data.message);
       }
       showSuccess(data.message + " " + usuario);
       setUsuario("");
       setContraseña("");
     } catch (err) {
-      showError("Error de respuesta: " + err);
+      showError("" + err);
     } finally {
       setLoading(false);
     }
@@ -58,22 +66,24 @@ function LoginForm() {
               type="text"
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
-              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Contraseña
-            </label>
+          <div className="relative w-full">
             <input
-              type="password"
+              type={mostrar ? "text" : "password"}
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <button
+              type="button"
+              onClick={() => setMostrar(!mostrar)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-500"
+            >
+              {mostrar ? <Icons.ocultar /> : <Icons.mostrar />}
+            </button>
           </div>
 
           <button

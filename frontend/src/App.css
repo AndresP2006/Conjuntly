@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg-home: #e3e1d9;
+}
+
+body {
+  @apply bg-bg-home;
+}

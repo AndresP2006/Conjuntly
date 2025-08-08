@@ -1,25 +1,22 @@
 import React, { useState } from "react";
 import { showSuccess, showError, showAlert } from "../../utils/Alertas";
-import { Api } from "../../const/Api";
 import Icons from "../../utils/Icons";
+import { useNavigate } from "react-router-dom";
+import authService from "../../services/authService";
 
 function LoginForm() {
   const [usuario, setUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [loading, setLoading] = useState(false);
   const [mostrar, setMostrar] = useState(false);
+  const navegate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch(Api.USER.API_URL_USER, {
-      method: Api.USER.method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, contraseña }),
-    });
     try {
-      const data = await res.json();
+      const data = await authService.Login(usuario, contraseña);
       // console.log(data);
       if (data.message === "Credenciales invalidas") {
         setUsuario("");
@@ -33,6 +30,13 @@ function LoginForm() {
       showSuccess(data.message + " " + usuario);
       setUsuario("");
       setContraseña("");
+      if (data.usuario.Ro_id === 1) {
+        navegate("/Administrador");
+      } else if (data.usuario.Ro_id === 2) {
+        navegate("/Porteria");
+      } else if (data.usuario.Ro_id === 3) {
+        navegate("/Usuario");
+      }
     } catch (err) {
       showError("" + err);
     } finally {
@@ -82,7 +86,7 @@ function LoginForm() {
               onClick={() => setMostrar(!mostrar)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-500"
             >
-              {mostrar ? <Icons.ocultar /> : <Icons.mostrar />}
+              {mostrar ? <Icons.mostrar /> : <Icons.ocultar />}
             </button>
           </div>
 

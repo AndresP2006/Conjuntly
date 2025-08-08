@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
+import Administrador from "../pages/administrador/Administrador";
+import Porteria from "../pages/porteria/Porteria";
+import Usuario from "../pages/usuarios/Usuario";
+import Notificaciones from "../pages/notificaciones/Notificaciones";
 
 function AppRoutes() {
   return (
@@ -9,10 +13,12 @@ function AppRoutes() {
       <Route path="/CreateUser" element={"/"} />
       <Route path="/RecoverKey" element={"/"} />
       //Usuario
-      <Route path="/User" element={"/"} />
-      <Route path="/UserNotific" element={"/"} />
+      <Route path="/Usuario" element={<Usuario />} />
+      <Route path="/UserNotific" element={<Notificaciones />} />
       //Administrador
-      <Route path="/Amind" element={"/"} />
+      <Route path="/Administrador" element={<Administrador />} />
+      //Porteria
+      <Route path="/Porteria" element={<Porteria />} />
     </Routes>
   );
 }

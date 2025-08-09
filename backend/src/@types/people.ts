@@ -1,20 +1,20 @@
 import { RowDataPacket } from "mysql2";
 
 export interface user extends RowDataPacket {
-  Us_id: number;
+  Us_id: number; // opcional porque se genera en DB
   Us_usuario: string;
   Us_contrasena: string;
   Us_correo: string;
   Ro_id: number;
-  estado: string;
+  estado: "activo" | "inactivo";
 }
 
 export interface persona extends RowDataPacket {
-  Pe_id: number;
+  Pe_id: number; // opcional si lo genera la DB
   Pe_nombre: string;
   Pe_apellidos: string;
   Pe_telefono: number;
-  Us_id: number;
+  Us_id: number; // obligatorio porque se vincula al usuario
   Ap_id: number;
 }
 

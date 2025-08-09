@@ -5,7 +5,7 @@ function Admin() {
   return (
     <div>
       <div className="min-h-screen flex flex-col">
-        <HeaderAdmin />
+        <HeaderAdmin Titulo="Control de Visitas" />
         <FooterHome />
       </div>
     </div>

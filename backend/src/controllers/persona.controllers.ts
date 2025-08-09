@@ -1,0 +1,76 @@
+import personaModels from "../models/persona.models";
+import { Request, Response } from "express";
+import userModels from "../models/user.models";
+import bcrypt from "bcrypt";
+
+async function CrearPersona(req: Request, res: Response) {
+  const { usuario, ...personaData } = req.body;
+
+  // Validación de usuario
+  if (
+    !usuario?.Us_id ||
+    !usuario?.Us_usuario ||
+    !usuario?.Us_contrasena ||
+    !usuario?.Us_correo ||
+    !usuario?.Ro_id ||
+    usuario?.estado === undefined
+  ) {
+    return res.status(400).json({ message: "Faltan credenciales de usuario" });
+  }
+
+  // Validación de persona
+  if (
+    !personaData?.Pe_nombre ||
+    !personaData?.Pe_apellidos ||
+    !personaData?.Pe_telefono ||
+    !personaData?.Ap_id
+  ) {
+    return res.status(400).json({ message: "Faltan credenciales de persona" });
+  }
+
+  try {
+    // Verificar si el nombre de usuario ya existe
+    const validarUser = await userModels.userByCredenciales(usuario.Us_usuario);
+    if (validarUser) {
+      return res
+        .status(401)
+        .json({ message: "Usuario ya existente: " + usuario.Us_usuario });
+    }
+
+    // Hashear contraseña
+    const sifrarContraseña = await bcrypt.hash(usuario.Us_contrasena, 10);
+
+    // Crear usuario
+    const nuevoUsuario = {
+      ...usuario,
+      Us_contrasena: sifrarContraseña,
+    };
+    const createUser = await userModels.createUser(nuevoUsuario);
+    if (!createUser) {
+      return res.status(500).json({ message: "No se pudo crear el usuario" });
+    }
+
+    // Crear persona vinculada con Pe_id = Us_id
+    const nuevaPersona = {
+      ...personaData,
+      Us_id: createUser.Us_id,
+      Pe_id: createUser.Us_id, // ← necesario para el modelo
+    };
+    const createPersona = await personaModels.createPerson(nuevaPersona);
+    if (!createPersona) {
+      return res.status(500).json({ message: "No se pudo crear la persona" });
+    }
+
+    return res.status(200).json({
+      message: "Residente creado correctamente",
+      usuario: createUser,
+      persona: createPersona,
+    });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ message: "Error interno del servidor", error: String(e) });
+  }
+}
+
+export default { CrearPersona };

@@ -3,7 +3,8 @@ import { user } from "../@types/people";
 
 //Iniciar Sesion
 async function userByCredenciales(usuario: string): Promise<user | null> {
-  const query = "SELECT * FROM usuario WHERE Us_usuario=?  AND estado= 1";
+  const query =
+    "SELECT * FROM usuario WHERE Us_usuario=?  AND estado= 'activo'";
   const values = [usuario];
 
   const [rows]: any = await conn.query(query, values);
@@ -24,12 +25,15 @@ async function getUserById(id: number): Promise<user | null> {
 }
 
 //Crear usuario
-async function getUser(data: user): Promise<user | null> {
+export async function createUser(
+  data: Omit<user, "Us_id">
+): Promise<user | null> {
   try {
-    const query =
-      "INSERT INTO usuario(`Us_id`,`Us_usuario`,`Us_contrasena`,`Us_correo`,`Ro_id`,estado) VALUES(?,?,?,?,?,?)";
-
-    await conn.query(query, [
+    const query = `
+      INSERT INTO usuario (Us_id,Us_usuario, Us_contrasena, Us_correo, Ro_id, estado)
+      VALUES (?, ?, ?, ?, ?,?)
+    `;
+    const [result]: any = await conn.query(query, [
       data.Us_id,
       data.Us_usuario,
       data.Us_contrasena,
@@ -38,11 +42,16 @@ async function getUser(data: user): Promise<user | null> {
       data.estado,
     ]);
 
-    return null;
+    const insertedId = result.insertId;
+
+    return {
+      Us_id: insertedId,
+      ...data,
+    } as user;
   } catch (err) {
-    console.error(err);
+    console.error("Error al crear usuario:", err);
     return null;
   }
 }
 
-export default { userByCredenciales, getUserById, getUser };
+export default { userByCredenciales, getUserById, createUser };

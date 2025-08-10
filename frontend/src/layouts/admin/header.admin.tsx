@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Icons from "../../utils/Icons";
 
 function HeaderAdmin({ Titulo }: { Titulo: string }) {
   const [usuario, setUsuario] = useState("Usuario");
@@ -16,17 +17,17 @@ function HeaderAdmin({ Titulo }: { Titulo: string }) {
   };
 
   return (
-    <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <h1 className="text-4xl font-bold">{Titulo}</h1>
+    <header className="bg-[#f0f0f0] text-black p-4 flex justify-between items-center">
+      <h1 className="text-2xl font-bold">{Titulo}</h1>
 
       <div className="flex items-center gap-6">
         <h2 className="text-lg font-bold">Bienvenido, {usuario}</h2>
 
         <button
           onClick={handleLogout}
-          className="bg-red-700 rounded-2xl font-bold px-4 py-2 hover:bg-red-500 transition"
+          className=" font-bold px-4 py-2 cursor-pointer text-3xl"
         >
-          Cerrar Sesión
+          <Icons.salir />
         </button>
       </div>
     </header>

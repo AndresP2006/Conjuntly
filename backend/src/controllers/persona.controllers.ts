@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import userModels from "../models/user.models";
 import bcrypt from "bcrypt";
 
+//Crear usuario y personas
 async function CrearPersona(req: Request, res: Response) {
   const { usuario, ...personaData } = req.body;
 
@@ -73,4 +74,23 @@ async function CrearPersona(req: Request, res: Response) {
   }
 }
 
-export default { CrearPersona };
+//Mostrar residentes
+async function Residentes(req: Request, res: Response) {
+  try {
+    const people = await personaModels.Peoples();
+    return res.status(200).json({ message: people });
+  } catch (e) {
+    return res.status(500).json({ message: e });
+  }
+}
+
+//Mostrar Roles
+async function Roles(req: Request, res: Response) {
+  try {
+    const roles = await personaModels.Rol();
+    return res.status(200).json({ message: roles });
+  } catch (e) {
+    return res.status(500).json({ message: e });
+  }
+}
+export default { CrearPersona, Residentes, Roles };

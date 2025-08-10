@@ -17,6 +17,9 @@ function AppRoutes() {
       <Route path="/UserNotific" element={<Notificaciones />} />
       //Administrador
       <Route path="/Administrador" element={<Administrador />} />
+      <Route path="/Visitas" element={"#"} />
+      <Route path="/Paquetes" element={"#"} />
+      <Route path="/Apartamentos" element={"#"} />
       //Porteria
       <Route path="/Porteria" element={<Porteria />} />
     </Routes>

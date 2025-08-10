@@ -1,5 +1,5 @@
 import conn from "../config/conn";
-import { persona } from "../@types/people";
+import { persona, Rol } from "../@types/people";
 
 export async function createPerson(
   data: Omit<persona, "Pe_id">
@@ -38,4 +38,18 @@ export async function createPerson(
   }
 }
 
-export default { createPerson };
+async function Peoples(): Promise<persona> {
+  const query =
+    "SELECT p.`Pe_id`, p.`Pe_nombre`, p.`Pe_apellidos`,u.`Us_correo`, u.estado, a.`Ap_numero`, u.`Us_usuario`, p.`Pe_telefono`,r.`Ro_tipo` FROM persona p JOIN usuario u ON p.Us_id = u.Us_id JOIN apartamento a ON p.Ap_id = a.Ap_id JOIN rol r ON r.`Ro_id` = u.`Ro_id`";
+
+  const [rows]: any = await conn.query(query);
+
+  return rows;
+}
+
+async function Rol(): Promise<Rol> {
+  const query = "SELECT * FROM rol";
+  const [rows]: any = await conn.query(query);
+  return rows;
+}
+export default { createPerson, Peoples, Rol };

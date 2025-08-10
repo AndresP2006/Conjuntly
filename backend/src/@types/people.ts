@@ -60,3 +60,8 @@ export interface apartamento extends RowDataPacket {
   To_id: number;
   Ap_numero: number;
 }
+
+export interface Rol extends RowDataPacket {
+  Ro_id: number;
+  Ro_tipo: string;
+}

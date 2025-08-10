@@ -1,4 +1,4 @@
-//Funciones (get,post,put,delete) de residente,visitas y paquetes
+//Funciones (get,post,delete) de residente,visitas y paquetes
 import { Api } from "../const/Api";
 
 //Mostrar datos para el panel administrativo
@@ -23,4 +23,24 @@ async function Roles() {
   return message;
 }
 
-export default { Residentes, Roles };
+//GET TORRES
+export async function Torres() {
+  const response = await fetch(Api.Torres.API_ULR_TORRE, {
+    method: Api.Torres.method,
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  return data;
+}
+
+export async function Apartamento(torre: string) {
+  const url = Api.Apartamento.getAPIUrlApartamento(torre);
+  const response = await fetch(url, {
+    method: Api.Apartamento.method,
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  return data;
+}
+
+export default { Residentes, Roles, Torres, Apartamento };

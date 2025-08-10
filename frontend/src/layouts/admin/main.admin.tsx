@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import OpenModal from "../../components/boton/OpenModal";
 import httpService from "../../services/httpService";
 import Icons from "../../utils/Icons";
+import PersonaModal from "../../components/modals/Personas.modal";
+
 interface Rol {
   Ro_id: number;
   Ro_tipo: string;
@@ -72,6 +74,7 @@ function MainContent() {
             texto="+"
             clases="bg-green-600 cursor-pointer hover:bg-green-700 active:scale-95 transition-all duration-200 font-bold text-2xl rounded-2xl px-5 py-2 text-white"
             title="Agregar Residente"
+            modal={<PersonaModal />}
           />
           <div className="relative w-52">
             <input

@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import userControllers from "../controllers/user.controllers";
 import visitaControllers from "../controllers/visita.controllers";
 import personaControllers from "../controllers/persona.controllers";
+import apartamentoControllers from "../controllers/apartamento.controllers";
 
 const router = Router();
 
@@ -18,6 +19,10 @@ router.get("/Roles", personaControllers.Roles);
 
 //Portero
 router.get("/Contador", visitaControllers.Contador);
+
+//Apartamentos y Torres
+router.get("/Torre", apartamentoControllers.Torres);
+router.get("/torre/:letra/apartamentos", apartamentoControllers.Apartamento);
 //Ruta falsa
 async function rutaFalsa(req: Request, res: Response): Promise<void> {
   res.status(404).json({ message: "Ruta no encontrada" });

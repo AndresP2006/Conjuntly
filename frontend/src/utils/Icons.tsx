@@ -7,6 +7,8 @@ const Icons = {
   admin: () => <i className="fa-solid fa-user-tie"></i>,
   buscar: () => <i className="fa-solid fa-magnifying-glass"></i>,
   usuario: () => <i className="fa-solid fa-circle-user"></i>,
+  cerrar: () => <i className="fa-solid fa-circle-xmark"></i>,
+  foto: () => <i className="fa-solid fa-camera"></i>,
 };
 
 export default Icons;

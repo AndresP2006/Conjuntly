@@ -3,45 +3,31 @@ import OpenModal from "../../components/boton/OpenModal";
 import httpService from "../../services/httpService";
 import Icons from "../../utils/Icons";
 import PersonaModal from "../../components/modals/Personas.modal";
+import type { Rol, Dato } from "../../@types/People";
 
-interface Rol {
-  Ro_id: number;
-  Ro_tipo: string;
-}
-interface Dato {
-  Pe_id: number; // ID de persona
-  Pe_nombre: string; // Nombre
-  Pe_apellidos: string; // Apellidos
-  Us_correo: string; //Correo
-  estado: string; // Estado (ej. ACTIVO/INACTIVO)
-  Ap_numero: number; // Número de apartamento
-  Us_usuario: string; // Nombre de usuario
-  Pe_telefono: string; // Teléfono de contacto
-  Ro_tipo: string; //Roles
-}
 function MainContent() {
   const [datos, setDatos] = useState<Dato[]>([]);
   const [roles, setRoles] = useState<Rol[]>([]);
   const [filtroRol, setFiltroRol] = useState("#");
   const [buscar, setBuscar] = useState("");
 
-  useEffect(() => {
-    async function fectData() {
-      try {
-        const people = await httpService.Residentes();
-        const rol = await httpService.Roles();
-        setDatos(people);
-        setRoles(rol);
-      } catch (e) {
-        console.error(e);
-      }
+  async function fectData() {
+    try {
+      const people = await httpService.Residentes();
+      const rol = await httpService.Roles();
+      setDatos(people);
+      setRoles(rol);
+    } catch (e) {
+      console.error(e);
     }
-
+  }
+  useEffect(() => {
     fectData();
   }, []);
   const datosFiltrados = datos.filter((d) => {
     const coincideRol =
       filtroRol === "#" ||
+      (filtroRol === "inactivo" && d.estado === "inactivo") ||
       String(d.Ro_tipo).toLowerCase() ===
         roles.find((r) => r.Ro_id === Number(filtroRol))?.Ro_tipo.toLowerCase();
 
@@ -74,7 +60,13 @@ function MainContent() {
             texto="+"
             clases="bg-green-600 cursor-pointer hover:bg-green-700 active:scale-95 transition-all duration-200 font-bold text-2xl rounded-2xl px-5 py-2 text-white"
             title="Agregar Residente"
-            modal={<PersonaModal />}
+            modal={
+              <PersonaModal
+                onSuccess={() => {
+                  fectData();
+                }}
+              />
+            }
           />
           <div className="relative w-52">
             <input
@@ -102,6 +94,7 @@ function MainContent() {
                   {e.Ro_tipo}
                 </option>
               ))}
+              <option value="inactivo">Inactivo</option>
             </select>
           </div>
         </div>

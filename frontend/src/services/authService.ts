@@ -1,7 +1,8 @@
 //Funciones para login, registro, logout, verificación de toke
 import { Api } from "../const/Api";
-import type { Persona, Usuario } from "../@types/People";
+import type { PersonaData } from "../@types/People";
 
+//POST INISIO DE SESION (LOGIN)
 async function Login(usuario: string, contraseña: string) {
   const response = await fetch(Api.USER.API_URL_USER, {
     method: Api.USER.method,
@@ -19,19 +20,20 @@ async function Login(usuario: string, contraseña: string) {
   return data;
 }
 
-async function CraerPersona(personas: Persona, user: Usuario) {
-  const datos = {
-    personas,
-    user,
-  };
-  const response = await fetch(Api.CrearResidente.Api_ULR_CREATE_PEOPLE, {
-    method: Api.CrearResidente.method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(datos),
-  });
+//POST CREAR RESIDENTE Y USUARIO
+async function CraerPersona(datos: PersonaData) {
+  try {
+    const response = await fetch(Api.CrearResidente.Api_ULR_CREATE_PEOPLE, {
+      method: Api.CrearResidente.method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos),
+    });
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export default { Login, CraerPersona };

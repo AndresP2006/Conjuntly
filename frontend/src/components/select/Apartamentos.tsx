@@ -9,7 +9,8 @@ interface Apartamento {
   Ap_numero: number;
 }
 
-function Apartamentos() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Apartamentos({ value, onchange }: any) {
   const [torres, setTorres] = useState<Edificio[]>([]);
   const [torreSeleccionada, setTorreSeleccionada] = useState<string>("");
   const [apartamentos, setApartamentos] = useState<Apartamento[]>([]);
@@ -56,13 +57,12 @@ function Apartamentos() {
     }
     cargarApartamentos();
   }, [torreSeleccionada]);
-  console.log(apartamentos);
 
   return (
-    <div className="flex space-x-6 items-center">
-      <div className="flex flex-col">
+    <div className="flex space-x-6 items-center ">
+      <div className="flex flex-col ">
         <label htmlFor="select-torre" className="mb-1 font-semibold">
-          Torres:
+          Torre
         </label>
         <select
           id="select-torre"
@@ -81,12 +81,16 @@ function Apartamentos() {
 
       <div className="flex flex-col">
         <label htmlFor="select-apartamento" className="mb-1 font-semibold">
-          Apartamentos:
+          Apartamentos
         </label>
         <select
           id="select-apartamento"
-          value={apartamentoSeleccionado}
-          onChange={(e) => setApartamentoSeleccionado(e.target.value)}
+          value={apartamentoSeleccionado && value}
+          onChange={(e) => {
+            const value = e.target.value;
+            setApartamentoSeleccionado(value);
+            onchange(value);
+          }}
           className="border border-gray-300 rounded px-3 py-1"
           disabled={apartamentos.length === 0}
         >

@@ -16,7 +16,10 @@ async function CrearPersona(req: Request, res: Response) {
     !usuario?.Ro_id ||
     usuario?.estado === undefined
   ) {
-    return res.status(400).json({ message: "Faltan credenciales de usuario" });
+    return res.status(400).json({
+      code: "USER_CREDENTIALS_MISSING",
+      message: "Faltan credenciales de usuario",
+    });
   }
 
   // Validación de persona
@@ -26,16 +29,20 @@ async function CrearPersona(req: Request, res: Response) {
     !personaData?.Pe_telefono ||
     !personaData?.Ap_id
   ) {
-    return res.status(400).json({ message: "Faltan credenciales de persona" });
+    return res.status(400).json({
+      code: "PERSON_CREDENTIALS_MISSING",
+      message: "Faltan credenciales de persona",
+    });
   }
 
   try {
     // Verificar si el nombre de usuario ya existe
     const validarUser = await userModels.userByCredenciales(usuario.Us_usuario);
     if (validarUser) {
-      return res
-        .status(401)
-        .json({ message: "Usuario ya existente: " + usuario.Us_usuario });
+      return res.status(409).json({
+        code: "USER_ALREADY_EXISTS",
+        message: `Nombre de usuario existe: ${usuario.Us_usuario}`,
+      });
     }
 
     // Hashear contraseña
@@ -48,29 +55,38 @@ async function CrearPersona(req: Request, res: Response) {
     };
     const createUser = await userModels.createUser(nuevoUsuario);
     if (!createUser) {
-      return res.status(500).json({ message: "No se pudo crear el usuario" });
+      return res.status(500).json({
+        code: "USER_CREATION_FAILED",
+        message: "No se pudo crear el usuario ya existente",
+      });
     }
 
-    // Crear persona vinculada con Pe_id = Us_id
+    // Crear persona
     const nuevaPersona = {
       ...personaData,
       Us_id: createUser.Us_id,
-      Pe_id: createUser.Us_id, // ← necesario para el modelo
+      Pe_id: createUser.Us_id,
     };
     const createPersona = await personaModels.createPerson(nuevaPersona);
     if (!createPersona) {
-      return res.status(500).json({ message: "No se pudo crear la persona" });
+      return res.status(500).json({
+        code: "PERSON_CREATION_FAILED",
+        message: "No se pudo crear la persona",
+      });
     }
 
     return res.status(200).json({
+      code: "SUCCESS",
       message: "Residente creado correctamente",
       usuario: createUser,
       persona: createPersona,
     });
   } catch (e) {
-    return res
-      .status(500)
-      .json({ message: "Error interno del servidor", error: String(e) });
+    return res.status(500).json({
+      code: "SERVER_ERROR",
+      message: "Error interno del servidor",
+      error: String(e),
+    });
   }
 }
 

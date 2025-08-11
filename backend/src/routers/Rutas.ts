@@ -4,7 +4,6 @@ import userControllers from "../controllers/user.controllers";
 import visitaControllers from "../controllers/visita.controllers";
 import personaControllers from "../controllers/persona.controllers";
 import apartamentoControllers from "../controllers/apartamento.controllers";
-
 const router = Router();
 
 //Rutas del sistema
@@ -14,6 +13,7 @@ router.post("/login", userControllers.Login);
 
 //Administrador
 router.post("/usuario", personaControllers.CrearPersona);
+
 router.get("/People", personaControllers.Residentes);
 router.get("/Roles", personaControllers.Roles);
 

@@ -34,7 +34,7 @@ export async function Torres() {
 }
 
 //GET APARTAMENTOS
-export async function Apartamento(torre: string) {
+async function Apartamento(torre: string) {
   const url = Api.Apartamento.getAPIUrlApartamento(torre);
   const response = await fetch(url, {
     method: Api.Apartamento.method,
@@ -44,4 +44,14 @@ export async function Apartamento(torre: string) {
   return data;
 }
 
-export default { Residentes, Roles, Torres, Apartamento };
+async function Estado(id: string) {
+  const url = Api.Estado.putApiUrlEstas(id);
+  const response = await fetch(url, {
+    method: Api.Estado.method,
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  return data;
+}
+
+export default { Residentes, Roles, Torres, Apartamento, Estado };

@@ -16,8 +16,8 @@ export async function createPerson(
     const apId = rows[0].Ap_id;
 
     const query = `
-      INSERT INTO persona (Pe_id, Pe_nombre, Pe_apellidos, Pe_telefono, Us_id, Ap_id)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO persona (Pe_id, Pe_nombre, Pe_apellidos, Pe_telefono, Us_id,Pe_Perfil, Ap_id)
+      VALUES (?, ?, ?, ?, ?, ?,?)
     `;
     await conn.query(query, [
       data.Us_id, // Usamos Us_id como Pe_id
@@ -25,6 +25,7 @@ export async function createPerson(
       data.Pe_apellidos,
       data.Pe_telefono,
       data.Us_id,
+      data.Pe_Perfil,
       apId,
     ]);
 
@@ -52,4 +53,5 @@ async function Rol(): Promise<Rol> {
   const [rows]: any = await conn.query(query);
   return rows;
 }
+
 export default { createPerson, Peoples, Rol };

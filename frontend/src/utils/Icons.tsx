@@ -9,6 +9,7 @@ const Icons = {
   usuario: () => <i className="fa-solid fa-circle-user"></i>,
   cerrar: () => <i className="fa-solid fa-circle-xmark"></i>,
   foto: () => <i className="fa-solid fa-camera"></i>,
+  activar: () => <i className="fa-solid fa-circle-check"></i>,
 };
 
 export default Icons;

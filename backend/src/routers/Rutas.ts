@@ -13,7 +13,7 @@ router.post("/login", userControllers.Login);
 
 //Administrador
 router.post("/usuario", personaControllers.CrearPersona);
-
+router.put("/estado/:id", userControllers.Desactivar);
 router.get("/People", personaControllers.Residentes);
 router.get("/Roles", personaControllers.Roles);
 
@@ -23,6 +23,7 @@ router.get("/Contador", visitaControllers.Contador);
 //Apartamentos y Torres
 router.get("/Torre", apartamentoControllers.Torres);
 router.get("/torre/:letra/apartamentos", apartamentoControllers.Apartamento);
+
 //Ruta falsa
 async function rutaFalsa(req: Request, res: Response): Promise<void> {
   res.status(404).json({ message: "Ruta no encontrada" });

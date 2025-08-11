@@ -26,4 +26,9 @@ export const Api = {
       }/torre/${letra.toLowerCase()}/apartamentos`,
     method: "GET",
   },
+  Estado: {
+    putApiUrlEstas: (id: string) =>
+      `${import.meta.env.VITE_API_URL_USER}/estado/${id}`,
+    method: "PUT",
+  },
 };

@@ -20,6 +20,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
     apellido: "",
     telefono: "",
     correo: "",
+    imagen: "",
     apartamento: "",
     usuario: "",
     contraseña: "",
@@ -53,6 +54,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
       Pe_apellidos: formPersona.apellido,
       Pe_telefono: Number(formPersona.telefono || 0),
       Us_id: Number(formPersona.document),
+      Pe_Perfil: formPersona.imagen,
       Ap_id: Number(formPersona.apartamento),
       usuario: {
         Us_id: Number(formPersona.document),
@@ -122,8 +124,8 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
 
             <div className="flex w-full gap-6">
               <div className="flex flex-col gap-4 flex-grow">
-                <div className="flex gap-4">
-                  <div className="flex flex-col">
+                <div className="flex gap-4 ">
+                  <div className="flex flex-col ">
                     <label
                       htmlFor="document"
                       className="mb-1 font-medium text-gray-600"
@@ -137,7 +139,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.document}
                       onChange={handleChange}
                       placeholder="Documento"
-                      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      className="border w-64 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                   <div className="flex flex-col">
@@ -154,7 +156,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.nombre}
                       onChange={handleChange}
                       placeholder="Nombre"
-                      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      className="border w-67 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                 </div>
@@ -173,7 +175,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.apellido}
                       onChange={handleChange}
                       placeholder="Apellido"
-                      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      className="border w-64 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                   <div className="flex flex-col">
@@ -190,11 +192,11 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.telefono}
                       onChange={handleChange}
                       placeholder="Teléfono"
-                      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      className="border w-67 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                 </div>
-                <div>
+                <div className="flex gap-4 ">
                   <div className="flex flex-col">
                     <label
                       htmlFor="correo"
@@ -209,15 +211,27 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.correo}
                       onChange={handleChange}
                       placeholder="Correo"
-                      className="border w-full border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      className="border w-64 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="imagen"
+                      className="mb-1 font-medium text-gray-600"
+                    >
+                      Imagin:
+                    </label>
+                    <input
+                      type="text"
+                      id="imagen"
+                      name="imagen"
+                      value={formPersona.imagen}
+                      onChange={handleChange}
+                      placeholder="URL de imagen"
+                      className="border w-67 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                 </div>
-              </div>
-
-              {/* Columna derecha: botón foto */}
-              <div className="flex items-center">
-                <img src="/src/assets/img/perfil.jpg" alt="" />
               </div>
             </div>
           </fieldset>
@@ -256,7 +270,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                   value={formPersona.usuario}
                   onChange={handleChange}
                   placeholder="Usuario"
-                  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="border  border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
               </div>
 

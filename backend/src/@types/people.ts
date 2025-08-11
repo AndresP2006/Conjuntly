@@ -15,6 +15,7 @@ export interface persona extends RowDataPacket {
   Pe_apellidos: string;
   Pe_telefono: number;
   Us_id: number; // obligatorio porque se vincula al usuario
+  Pe_Perfil: string;
   Ap_id: number;
 }
 

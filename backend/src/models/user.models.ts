@@ -54,4 +54,22 @@ export async function createUser(
   }
 }
 
-export default { userByCredenciales, getUserById, createUser };
+async function Desactivar(estado: string, id: number): Promise<user> {
+  const sql = "UPDATE usuario SET estado = ? WHERE `Us_id` = ?";
+  const [rows]: any = await conn.query(sql, [estado, id]);
+  return rows;
+}
+
+async function verificarEstado(id: number): Promise<user | null> {
+  const sql = "SELECT estado FROM usuario WHERE Us_id = ?";
+  const [rows]: any = await conn.query(sql, [id]);
+  return rows.length > 0 ? rows[0] : null;
+}
+
+export default {
+  userByCredenciales,
+  getUserById,
+  createUser,
+  Desactivar,
+  verificarEstado,
+};

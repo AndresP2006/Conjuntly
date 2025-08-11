@@ -21,6 +21,14 @@ function MainContent() {
       console.error(e);
     }
   }
+  async function Estado(id: string) {
+    try {
+      await httpService.Estado(id);
+      fectData();
+    } catch (e) {
+      console.error(e);
+    }
+  }
   useEffect(() => {
     fectData();
   }, []);
@@ -149,8 +157,24 @@ function MainContent() {
                       title="Mostrar"
                       icons={Icons.mostrar}
                     />
-                    <button className="cursor-pointer hover:text-red-300">
-                      {<Icons.eliminar />}
+                    <button
+                      className={`cursor-pointer ${
+                        e.estado === "inactivo"
+                          ? "text-emerald-600"
+                          : "text-red-600"
+                      } `}
+                      title={
+                        e.estado === "inactivo"
+                          ? "Activar Usuario"
+                          : "Desactivar Usuario"
+                      }
+                      onClick={() => Estado(String(e.Pe_id))}
+                    >
+                      {e.estado === "inactivo" ? (
+                        <Icons.activar />
+                      ) : (
+                        <Icons.eliminar />
+                      )}
                     </button>
                   </td>
                 </tr>

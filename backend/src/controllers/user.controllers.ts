@@ -34,4 +34,29 @@ async function Login(req: Request, res: Response) {
   }
 }
 
-export default { Login };
+//Cambiar el estado de un Usuario
+async function Desactivar(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const verificar = await userModels.verificarEstado(Number(id));
+
+    if (!verificar) {
+      return res
+        .status(404)
+        .json({ message: `Usuario con ID ${id} no encontrado` });
+    }
+    // console.log(verificar);
+    const nuevoEstado = verificar.estado === "activo" ? "inactivo" : "activo";
+    await userModels.Desactivar(nuevoEstado, Number(id));
+
+    return res.status(200).json({
+      data: nuevoEstado,
+    });
+  } catch (error) {
+    console.error("Error al cambiar estado del usuario:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+}
+
+export default { Login, Desactivar };

@@ -27,7 +27,8 @@ async function CrearPersona(req: Request, res: Response) {
     !personaData?.Pe_nombre ||
     !personaData?.Pe_apellidos ||
     !personaData?.Pe_telefono ||
-    !personaData?.Ap_id
+    !personaData?.Ap_id ||
+    !personaData?.Pe_Perfil
   ) {
     return res.status(400).json({
       code: "PERSON_CREDENTIALS_MISSING",

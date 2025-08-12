@@ -44,6 +44,7 @@ async function Apartamento(torre: string) {
   return data;
 }
 
+//PUT EDITAR ESTADO
 async function Estado(id: string) {
   const url = Api.Estado.putApiUrlEstas(id);
   const response = await fetch(url, {
@@ -54,4 +55,17 @@ async function Estado(id: string) {
   return data;
 }
 
-export default { Residentes, Roles, Torres, Apartamento, Estado };
+//GET MOSTRAR RESIDENTE POR ID
+async function ResidenteId(id: string) {
+  const url = Api.ResidenteId.getResidenteId(id);
+
+  const response = await fetch(url, {
+    method: Api.ResidenteId.method,
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+export default { Residentes, Roles, Torres, Apartamento, Estado, ResidenteId };

@@ -156,6 +156,7 @@ function MainContent() {
                       clases="cursor-pointer hover:text-blue-300"
                       title="Mostrar"
                       icons={Icons.mostrar}
+                      modal={<PersonaModal id={String(e.Pe_id)} />}
                     />
                     <button
                       className={`cursor-pointer ${

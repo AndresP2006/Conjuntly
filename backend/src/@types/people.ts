@@ -17,6 +17,10 @@ export interface persona extends RowDataPacket {
   Us_id: number; // obligatorio porque se vincula al usuario
   Pe_Perfil: string;
   Ap_id: number;
+  usuario?: user;
+  torre?: torre;
+  apartamento?: apartamento;
+  rol?: Rol;
 }
 
 export interface visita extends RowDataPacket {

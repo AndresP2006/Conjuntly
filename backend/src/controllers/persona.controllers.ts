@@ -110,4 +110,14 @@ async function Roles(req: Request, res: Response) {
     return res.status(500).json({ message: e });
   }
 }
-export default { CrearPersona, Residentes, Roles };
+
+async function MostrarPersonasId(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const personas = await personaModels.getDatosPersona(Number(id));
+    return res.status(200).json({ personas });
+  } catch (e) {
+    return res.status(500).json({ message: e });
+  }
+}
+export default { CrearPersona, Residentes, Roles, MostrarPersonasId };

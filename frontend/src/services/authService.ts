@@ -13,10 +13,9 @@ async function Login(usuario: string, contraseña: string) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Error al inisiar sesion");
+    throw new Error(data.message || "Error en autenticación");
   }
   localStorage.setItem("usuario", data.usuario.Us_usuario);
-
   return data;
 }
 

@@ -16,6 +16,7 @@ router.post("/usuario", personaControllers.CrearPersona);
 router.put("/estado/:id", userControllers.Desactivar);
 router.get("/People", personaControllers.Residentes);
 router.get("/Roles", personaControllers.Roles);
+router.get("/people/:id", personaControllers.MostrarPersonasId);
 
 //Portero
 router.get("/Contador", visitaControllers.Contador);

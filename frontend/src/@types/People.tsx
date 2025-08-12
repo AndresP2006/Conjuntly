@@ -7,6 +7,16 @@ export interface UsuarioData {
   estado?: string;
 }
 
+export interface Apartamento {
+  Ap_numero: number;
+  To_letra: string;
+}
+
+export interface Rol {
+  Ro_id: number;
+  Ro_tipo: string;
+}
+
 export interface PersonaData {
   Pe_id: number;
   Pe_nombre: string;
@@ -15,12 +25,9 @@ export interface PersonaData {
   Us_id: number;
   Pe_Perfil?: string | null;
   Ap_id: number;
-  usuario: UsuarioData;
-}
-
-export interface Rol {
-  Ro_id: number;
-  Ro_tipo: string;
+  usuario?: UsuarioData;
+  rol?: Rol;
+  edificio?: Apartamento;
 }
 
 export interface Dato {

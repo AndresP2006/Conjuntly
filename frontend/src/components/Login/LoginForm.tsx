@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { showSuccess, showError, showAlert } from "../../utils/Alertas";
+import { showSuccess, showAlert } from "../../utils/Alertas";
 import Icons from "../../utils/Icons";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
@@ -17,19 +17,13 @@ function LoginForm() {
 
     try {
       const data = await authService.Login(usuario, contraseña);
-      // console.log(data);
-      if (data.message === "Credenciales invalidas") {
-        setUsuario("");
-        setContraseña("");
-        return showAlert("Usuario o Contraseña incorrecta");
-      }
 
-      if (data.message === "Faltan credenciales") {
-        return showAlert(data.message);
-      }
+      // Si llegamos aquí es porque todo salió bien
       showSuccess(data.message + " " + usuario);
       setUsuario("");
       setContraseña("");
+
+      // Redirigir según rol
       if (data.usuario.Ro_id === 1) {
         navegate("/Administrador");
       } else if (data.usuario.Ro_id === 2) {
@@ -37,8 +31,9 @@ function LoginForm() {
       } else if (data.usuario.Ro_id === 3) {
         navegate("/Usuario");
       }
-    } catch (err) {
-      showError("" + err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      showAlert(error.message || "Ocurrió un error inesperado");
     } finally {
       setLoading(false);
     }

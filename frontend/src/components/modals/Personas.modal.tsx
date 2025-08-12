@@ -9,11 +9,17 @@ import { showSuccess, showError, showAlert } from "../../utils/Alertas";
 type ModalFormProps = {
   onClose?: () => void;
   onSuccess?: () => void;
+  id?: string;
 };
 
-export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
+export default function PersonaModal({
+  onClose,
+  onSuccess,
+  id,
+}: ModalFormProps) {
   const [mostrar, setMostrar] = useState(false);
   const [rol, setRol] = useState<Rol[]>([]);
+  const [lectura, setLectura] = useState(false);
   const [formPersona, setFormPersona] = useState({
     document: "",
     nombre: "",
@@ -26,6 +32,34 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
     contraseña: "",
     rol: "",
   });
+
+  async function ResidenteId(id: string) {
+    try {
+      const res = await httpService.ResidenteId(id);
+      const p = res.personas;
+
+      setFormPersona({
+        document: String(p.Pe_id || ""),
+        nombre: p.Pe_nombre || "",
+        apellido: p.Pe_apellidos || "",
+        telefono: String(p.Pe_telefono || ""),
+        correo: p.Us_correo || "",
+        imagen: p.Pe_Perfil || "",
+        apartamento: `${p.To_letra || ""} ${p.Ap_numero || ""}`,
+        usuario: p.Us_usuario || "",
+        contraseña: p.Us_contrasena || "",
+        rol: String(p.Ro_id || ""),
+      });
+      setLectura(true);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(() => {
+    if (!id) return;
+    ResidenteId(id);
+  }, [id]);
 
   useEffect(() => {
     async function Roles() {
@@ -117,7 +151,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
         <h2 className="text-2xl font-bold mb-4">Formulario de Residente</h2>
         <form onSubmit={handelSubmit}>
           {/* DATOS DE RESIDENTE */}
-          <fieldset className="border border-gray-300 p-4 flex rounded-md max-w-xl mx-auto">
+          <fieldset className="border border-black p-4 flex rounded-md max-w-xl mx-auto">
             <legend className="px-2 font-semibold text-gray-700">
               Datos Residenciales
             </legend>
@@ -139,6 +173,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.document}
                       onChange={handleChange}
                       placeholder="Documento"
+                      readOnly={lectura}
                       className="border w-64 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
@@ -156,6 +191,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.nombre}
                       onChange={handleChange}
                       placeholder="Nombre"
+                      readOnly={lectura}
                       className="border w-67 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
@@ -175,6 +211,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.apellido}
                       onChange={handleChange}
                       placeholder="Apellido"
+                      readOnly={lectura}
                       className="border w-64 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
@@ -192,6 +229,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.telefono}
                       onChange={handleChange}
                       placeholder="Teléfono"
+                      readOnly={lectura}
                       className="border w-67 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
@@ -211,6 +249,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.correo}
                       onChange={handleChange}
                       placeholder="Correo"
+                      readOnly={lectura}
                       className="border w-64 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
@@ -228,6 +267,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                       value={formPersona.imagen}
                       onChange={handleChange}
                       placeholder="URL de imagen"
+                      readOnly={lectura}
                       className="border w-67 border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
@@ -237,7 +277,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
           </fieldset>
 
           {/* DATOS DE APARTAMENTO */}
-          <fieldset className="border border-gray-300 p-4 flex rounded-md max-w-xl mx-auto">
+          <fieldset className="border border-black p-4 flex rounded-md max-w-xl mx-auto">
             <legend className="px-2 font-semibold text-gray-700">
               Apartamento
             </legend>
@@ -250,7 +290,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
           </fieldset>
 
           {/* DATOS DE USUARIO */}
-          <fieldset className="border border-gray-300 p-4 flex rounded-md max-w-xl mx-auto">
+          <fieldset className="border border-black p-4 flex rounded-md max-w-xl mx-auto">
             <legend className="px-2 font-semibold text-gray-700">
               Datos de Usuario
             </legend>
@@ -270,6 +310,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                   value={formPersona.usuario}
                   onChange={handleChange}
                   placeholder="Usuario"
+                  readOnly={lectura}
                   className="border  border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
               </div>
@@ -290,6 +331,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                     value={formPersona.contraseña}
                     onChange={handleChange}
                     placeholder="Contraseña"
+                    readOnly={lectura}
                     className="w-full border border-gray-300 rounded px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-400"
                   />
                   <button
@@ -312,6 +354,7 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
                   id="rol"
                   value={formPersona.rol}
                   onChange={handleChange}
+                  disabled={lectura}
                   className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
                 >
                   <option value="">Roles</option>
@@ -326,12 +369,16 @@ export default function PersonaModal({ onClose, onSuccess }: ModalFormProps) {
           </fieldset>
 
           <div className="flex justify-center gap-4 mt-6">
-            <button
-              type="submit"
-              className="bg-green-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
-            >
-              Crear
-            </button>
+            {lectura ? (
+              ""
+            ) : (
+              <button
+                type="submit"
+                className="bg-green-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+              >
+                Crear
+              </button>
+            )}
           </div>
         </form>
       </div>

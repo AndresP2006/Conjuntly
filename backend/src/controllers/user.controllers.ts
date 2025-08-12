@@ -30,7 +30,7 @@ async function Login(req: Request, res: Response) {
   } catch (err) {
     return res
       .status(500)
-      .json({ message: "Error interno del servidor", error: String(err) });
+      .json({ message: "Error interno del servidor" + String(err) });
   }
 }
 

@@ -54,4 +54,16 @@ async function Rol(): Promise<Rol> {
   return rows;
 }
 
-export default { createPerson, Peoples, Rol };
+async function getDatosPersona(id: number): Promise<persona | null> {
+  const sql = `SELECT *
+FROM
+    persona p
+    INNER JOIN usuario u ON p.Us_id = u.Us_id
+    INNER JOIN apartamento a ON p.Ap_id = a.Ap_id
+    INNER JOIN torre t on a.To_id = t.To_id WHERE p.Pe_id=?`;
+  const [rows]: any = await conn.query(sql, [id]);
+
+  return rows.length > 0 ? rows[0] : null;
+}
+
+export default { createPerson, Peoples, Rol, getDatosPersona };

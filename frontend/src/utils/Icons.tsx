@@ -10,6 +10,7 @@ const Icons = {
   cerrar: () => <i className="fa-solid fa-circle-xmark"></i>,
   foto: () => <i className="fa-solid fa-camera"></i>,
   activar: () => <i className="fa-solid fa-circle-check"></i>,
+  Notification: () => <i className="fa-solid fa-bell"></i>,
 };
 
 export default Icons;

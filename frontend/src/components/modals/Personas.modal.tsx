@@ -337,6 +337,7 @@ export default function PersonaModal({
                   <button
                     type="button"
                     onClick={() => setMostrar(!mostrar)}
+                    hidden={lectura}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-500"
                   >
                     {mostrar ? <Icons.mostrar /> : <Icons.ocultar />}

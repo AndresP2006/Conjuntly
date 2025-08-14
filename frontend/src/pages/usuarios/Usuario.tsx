@@ -1,9 +1,13 @@
-import React from "react";
+import Datos from "../../layouts/user/Datos";
+import ManiUser from "../../layouts/user/Perfil";
 
 function Usuario() {
   return (
-    <div>
-      <h1>Usuario</h1>
+    <div className="min-h-screen flex justify-center bg-gray-100 py-10">
+      <div className="flex gap-6 w-[90%] max-w-6xl">
+        <ManiUser />
+        <Datos />
+      </div>
     </div>
   );
 }

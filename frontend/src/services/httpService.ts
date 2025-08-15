@@ -68,4 +68,25 @@ async function ResidenteId(id: string) {
   return data;
 }
 
-export default { Residentes, Roles, Torres, Apartamento, Estado, ResidenteId };
+//GET MOSTRAR RESIDENTE POR USUARIO
+async function ResidenteUsuario(user: string) {
+  const url = Api.ResidenteUser.getResidenteUser(user);
+
+  const response = await fetch(url, {
+    method: Api.ResidenteUser.method,
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+export default {
+  Residentes,
+  Roles,
+  Torres,
+  Apartamento,
+  Estado,
+  ResidenteId,
+  ResidenteUsuario,
+};

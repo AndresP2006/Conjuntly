@@ -4,6 +4,7 @@ import Administrador from "../pages/administrador/Administrador";
 import Porteria from "../pages/porteria/Porteria";
 import Usuario from "../pages/usuarios/Usuario";
 import Notificaciones from "../pages/notificaciones/Notificaciones";
+import NotFound from "../pages/NotFound";
 
 function AppRoutes() {
   return (
@@ -22,6 +23,8 @@ function AppRoutes() {
       <Route path="/Apartamentos" element={"#"} />
       //Porteria
       <Route path="/Porteria" element={<Porteria />} />
+      //Ruta inexistente
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

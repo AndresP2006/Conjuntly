@@ -25,6 +25,9 @@ router.get("/Contador", visitaControllers.Contador);
 router.get("/Torre", apartamentoControllers.Torres);
 router.get("/torre/:letra/apartamentos", apartamentoControllers.Apartamento);
 
+//Residente
+router.get("/usuario/:user", personaControllers.MostrarPersonasUser);
+
 //Ruta falsa
 async function rutaFalsa(req: Request, res: Response): Promise<void> {
   res.status(404).json({ message: "Ruta no encontrada" });

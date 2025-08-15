@@ -114,10 +114,27 @@ async function Roles(req: Request, res: Response) {
 async function MostrarPersonasId(req: Request, res: Response) {
   const { id } = req.params;
   try {
-    const personas = await personaModels.getDatosPersona(Number(id));
+    const personas = await personaModels.getDatosPersonaId(Number(id));
     return res.status(200).json({ personas });
   } catch (e) {
-    return res.status(500).json({ message: e });
+    return res.status(500).json(e);
   }
 }
-export default { CrearPersona, Residentes, Roles, MostrarPersonasId };
+
+async function MostrarPersonasUser(req: Request, res: Response) {
+  const { user } = req.params;
+
+  try {
+    const personaUser = await personaModels.getDatosPersonaUser(user);
+    return res.status(200).json({ data: personaUser });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
+}
+export default {
+  CrearPersona,
+  Residentes,
+  Roles,
+  MostrarPersonasId,
+  MostrarPersonasUser,
+};

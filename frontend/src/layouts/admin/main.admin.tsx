@@ -3,10 +3,10 @@ import OpenModal from "../../components/boton/OpenModal";
 import httpService from "../../services/httpService";
 import Icons from "../../utils/Icons";
 import PersonaModal from "../../components/modals/Personas.modal";
-import type { Rol, Dato } from "../../@types/People";
+import type { Rol, PersonaUsuarioAPI } from "../../@types/People";
 
 function MainContent() {
-  const [datos, setDatos] = useState<Dato[]>([]);
+  const [datos, setDatos] = useState<PersonaUsuarioAPI[]>([]);
   const [roles, setRoles] = useState<Rol[]>([]);
   const [filtroRol, setFiltroRol] = useState("#");
   const [buscar, setBuscar] = useState("");
@@ -134,7 +134,7 @@ function MainContent() {
                 </td>
               </tr>
             ) : (
-              datosFiltrados.map((e: Dato, i) => (
+              datosFiltrados.map((e: PersonaUsuarioAPI, i) => (
                 <tr key={i}>
                   <td className="p-2">{e.Pe_id}</td>
                   <td className="p-2">{e.Pe_nombre}</td>

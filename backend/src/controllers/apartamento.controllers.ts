@@ -27,4 +27,23 @@ async function Apartamento(req: Request, res: Response) {
   }
 }
 
-export default { Torres, Apartamento };
+async function ApartamentoResidentes(req: Request, res: Response) {
+  const { torre } = req.params;
+
+  try {
+    const apartamento = await apartamentosModels.ApartamentoResidentes(
+      Number(torre)
+    );
+
+    if (!apartamento) {
+      return res
+        .status(400)
+        .json({ data: "No se encontraron Residentes en el Apartametento" });
+    }
+    return res.status(200).json({ data: apartamento });
+  } catch (e) {
+    return res.status(500).json({ error: e });
+  }
+}
+
+export default { Torres, Apartamento, ApartamentoResidentes };

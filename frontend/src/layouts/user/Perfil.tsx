@@ -37,17 +37,27 @@ function ManiUser() {
         />
         <h2 className="text-xl font-bold">{usuario}</h2>
         <p className="text-base text-gray-500 mb-8">
-          {Roles.find((i) => i.id === datos?.Ro_id)?.rol || "null"}
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+              datos?.Ro_id === 1
+                ? "bg-purple-200 text-purple-800"
+                : datos?.Ro_id === 2
+                ? "bg-blue-200 text-blue-800"
+                : "bg-green-200 text-green-800"
+            }`}
+          >
+            {Roles.find((r) => r.id === datos?.Ro_id)?.rol}
+          </span>
         </p>
       </div>
 
-      <button className="w-full cursor-pointer py-3 mb-3 rounded-2xl bg-yellow-200 hover:bg-yellow-300 font-medium transition-colors">
+      <button className="w-full cursor-pointer py-3 mb-3 rounded-2xl bg-gray-300 hover:bg-gray-200 font-medium transition-colors">
         Información
       </button>
-      <button className="w-full py-3 mb-3 rounded-2xl bg-gray-200 hover:bg-gray-300 font-medium transition-colors cursor-pointer">
-        <Link to={"/Apartamento"}>Apartamento</Link>
+      <button className="w-full py-3 mb-3 rounded-2xl bg-gray-300 hover:bg-gray-200 font-medium transition-colors cursor-pointer">
+        <Link to={"/Apartamento"}>Registrar Visitas</Link>
       </button>
-      <button className="w-full cursor-pointer py-3 rounded-2xl bg-gray-200 hover:bg-red-300 font-medium transition-colors">
+      <button className="w-full cursor-pointer py-3 rounded-2xl bg-gray-300 hover:bg-red-200 font-medium transition-colors">
         <Link to={"/"}>Cerrar Sesión</Link>
       </button>
     </div>

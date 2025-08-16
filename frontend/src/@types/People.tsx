@@ -46,4 +46,5 @@ export interface PersonaUsuarioAPI {
   To_id: number;
   Ap_numero: number;
   To_letra: string;
+  Ro_tipo: string;
 }

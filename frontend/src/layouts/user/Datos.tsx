@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import type { PersonaUsuarioAPI } from "../../@types/People";
 import httpService from "../../services/httpService";
 import Icons from "../../utils/Icons";
+import OpenModal from "../../components/boton/OpenModal";
+import PersonaModal from "../../components/modals/Personas.modal";
 
 const Roles = [
   { id: 1, rol: "Administrador" },
@@ -9,17 +11,37 @@ const Roles = [
   { id: 3, rol: "Residente" },
 ];
 
+interface Apartamento {
+  Pe_id: number;
+  Pe_nombre: string;
+  Pe_apellidos: string;
+  Pe_telefono: string;
+  Ap_numero: number;
+}
 function Datos() {
   const [edit, setEdit] = useState(false);
   const [datos, setDatos] = useState<PersonaUsuarioAPI | null>(null);
+  const [original, setOriginal] = useState<PersonaUsuarioAPI | null>(null);
+  const [apartamento, setApartamento] = useState<Apartamento[]>([]);
 
   async function MostrarDatosUsuario(user: string) {
     const { data } = await httpService.ResidenteUsuario(user);
     setDatos(data);
+    setOriginal(data);
   }
 
   function toggleEdit() {
     setEdit(!edit);
+  }
+
+  function CancelarEdit() {
+    setDatos(original);
+    setEdit(false);
+  }
+
+  async function ApartametnoResidente(torre: string) {
+    const { data } = await httpService.ApartamentoResidentes(torre);
+    setApartamento(data);
   }
 
   useEffect(() => {
@@ -27,9 +49,14 @@ function Datos() {
     MostrarDatosUsuario(String(nombre));
   }, []);
 
+  useEffect(() => {
+    if (datos?.Ap_numero) {
+      ApartametnoResidente(String(datos.Ap_numero));
+    }
+  }, [datos?.Ap_numero]);
+
   return (
     <div className="bg-white rounded-2xl p-6 flex-1 shadow">
-      {/* Encabezado */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">Información Personal</h2>
         <span className="material-icons cursor-pointer text-3xl">
@@ -37,7 +64,6 @@ function Datos() {
         </span>
       </div>
 
-      {/* Grid con todos los campos */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="font-semibold">Nombre</label>
@@ -149,18 +175,71 @@ function Datos() {
         </div>
       </div>
 
-      {/* Botón */}
-      <div className="mt-6 flex justify-end">
-        <button
-          onClick={toggleEdit}
-          className={`px-6 py-2 rounded-full border border-black transition-colors ${
-            edit
-              ? "bg-green-100 hover:bg-green-200"
-              : "bg-yellow-100 hover:bg-yellow-200"
-          }`}
-        >
-          {edit ? "Guardar" : "Editar"}
-        </button>
+      <div className="mt-6 flex justify-center gap-4">
+        {edit ? (
+          <>
+            <button
+              className={`px-6 py-2 rounded-full border font-bold border-black transition-colors ${
+                edit
+                  ? "bg-green-100 hover:bg-green-200"
+                  : "bg-yellow-100 hover:bg-yellow-200"
+              }`}
+            >
+              Enviar
+            </button>
+            <button
+              onClick={CancelarEdit}
+              className={`px-6 py-2 rounded-full border font-bold text-white border-black transition-colors bg-red-500 hover:bg-red-300`}
+            >
+              Cancelar
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={toggleEdit}
+            className={`px-6 py-2 rounded-full border border-black transition-colors ${
+              edit
+                ? "bg-green-100 hover:bg-green-200"
+                : "bg-yellow-100 hover:bg-yellow-200"
+            }`}
+          >
+            Editar
+          </button>
+        )}
+      </div>
+      <h2 className="font-bold">Residentes del mismo apartamento</h2>
+      <div className="mt-6 max-h-40 overflow-y-auto rounded-lg border border-gray-300">
+        <table className="min-w-full border-collapse text-center">
+          <thead className="bg-gray-100 sticky top-0">
+            <tr>
+              <th className="p-2 font-bold">Documento</th>
+              <th className="p-2 font-bold">Nombre y Apellido</th>
+              <th className="p-2 font-bold">Teléfono</th>
+              <th className="p-2 font-bold">Apartamento</th>
+              <th className="p-2 font-bold">Información</th>
+            </tr>
+          </thead>
+          <tbody>
+            {apartamento.map((i, e) => (
+              <tr key={e} className="border-t">
+                <td className="p-2">{i.Pe_id}</td>
+                <td className="p-2">
+                  {i.Pe_nombre} {i.Pe_apellidos}
+                </td>
+                <td className="p-2">{i.Pe_telefono}</td>
+                <td className="p-2">{i.Ap_numero}</td>
+                <td>
+                  <OpenModal
+                    clases="cursor-pointer hover:text-blue-300"
+                    title="Mostrar"
+                    icons={Icons.mostrar}
+                    modal={<PersonaModal id={String(i.Pe_id)} />}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

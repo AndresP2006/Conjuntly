@@ -41,4 +41,9 @@ export const Api = {
       `${import.meta.env.VITE_API_URL_USER}/usuario/${user}`,
     method: "GET",
   },
+  ApartamentosResidente: {
+    getApartamentoApa: (torre: string) =>
+      `${import.meta.env.VITE_API_URL_USER}/apartamento/${torre}`,
+    method: "GET",
+  },
 };

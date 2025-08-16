@@ -81,6 +81,20 @@ async function ResidenteUsuario(user: string) {
   return data;
 }
 
+//GET MOSTRAR RESIDENTES DEL MISMO APARTAMENTO
+async function ApartamentoResidentes(torre: string) {
+  const url = Api.ApartamentosResidente.getApartamentoApa(torre);
+
+  const response = await fetch(url, {
+    method: Api.ApartamentosResidente.method,
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const data = response.json();
+
+  return data;
+}
+
 export default {
   Residentes,
   Roles,
@@ -89,4 +103,5 @@ export default {
   Estado,
   ResidenteId,
   ResidenteUsuario,
+  ApartamentoResidentes,
 };

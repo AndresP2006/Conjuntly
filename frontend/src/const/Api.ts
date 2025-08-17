@@ -46,4 +46,9 @@ export const Api = {
       `${import.meta.env.VITE_API_URL_USER}/apartamento/${torre}`,
     method: "GET",
   },
+  EditarResidente: {
+    putResidente: (id: string) =>
+      `${import.meta.env.VITE_API_URL_USER}/usuario/${id}`,
+    method: "PUT",
+  },
 };

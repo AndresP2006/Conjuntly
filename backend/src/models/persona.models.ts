@@ -82,10 +82,35 @@ async function getDatosPersonaUser(user: string): Promise<persona | null> {
   return rows.length > 0 ? rows[0] : null;
 }
 
+async function UpdatePeople(
+  id: number,
+  nombre: string,
+  apellido: string,
+  telefono: string
+): Promise<true | false> {
+  try {
+    const sql = `UPDATE persona
+SET
+    Pe_nombre = ?,
+    Pe_apellidos = ?,
+    Pe_telefono = ?
+    
+WHERE
+    Pe_id = ?`;
+
+    await conn.query(sql, [nombre, apellido, telefono, id]);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export default {
   createPerson,
   Peoples,
   Rol,
   getDatosPersonaId,
   getDatosPersonaUser,
+  UpdatePeople,
 };

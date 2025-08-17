@@ -2,6 +2,7 @@ import personaModels from "../models/persona.models";
 import { Request, Response } from "express";
 import userModels from "../models/user.models";
 import bcrypt from "bcrypt";
+import { verify } from "crypto";
 
 //Crear usuario y personas
 async function CrearPersona(req: Request, res: Response) {
@@ -131,10 +132,43 @@ async function MostrarPersonasUser(req: Request, res: Response) {
     return res.status(500).json(e);
   }
 }
+
+async function EditarResidente(req: Request, res: Response) {
+  const { id } = req.params;
+  const { usuario, correo } = req.body.usuario;
+  const { nombre, apellido, telefono } = req.body.persona;
+
+  try {
+    const Verificar = await userModels.verificarEstado(Number(id));
+    if (!Verificar) {
+      return res.status(400).json({
+        estado: false,
+        message: "No se puede editar un usuario inexistente",
+      });
+    }
+
+    const UpdateUser = await userModels.UpdateUser(usuario, correo, Number(id));
+    const UpdateResidente = await personaModels.UpdatePeople(
+      Number(id),
+      nombre,
+      apellido,
+      telefono
+    );
+
+    if (!UpdateUser || !UpdateResidente) {
+      return res.status(400).json({ message: false });
+    }
+
+    return res.status(200).json({ message: "Residente actualizado" });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
+}
 export default {
   CrearPersona,
   Residentes,
   Roles,
   MostrarPersonasId,
   MostrarPersonasUser,
+  EditarResidente,
 };

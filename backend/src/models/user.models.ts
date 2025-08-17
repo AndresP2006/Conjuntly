@@ -66,10 +66,24 @@ async function verificarEstado(id: number): Promise<user | null> {
   return rows.length > 0 ? rows[0] : null;
 }
 
+async function UpdateUser(
+  usuario: string,
+  correo: string,
+  id: number
+): Promise<true | false> {
+  try {
+    const sql = `UPDATE usuario SET  Us_usuario = ?, Us_correo = ? WHERE  Us_id = ?`;
+    await conn.query(sql, [usuario, correo, id]);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 export default {
   userByCredenciales,
   getUserById,
   createUser,
   Desactivar,
   verificarEstado,
+  UpdateUser,
 };

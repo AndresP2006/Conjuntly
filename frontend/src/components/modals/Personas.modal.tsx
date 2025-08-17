@@ -79,6 +79,7 @@ export default function PersonaModal({
     const { name, value } = e.target;
     setFormPersona((prev) => ({ ...prev, [name]: value }));
   };
+
   const handelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 

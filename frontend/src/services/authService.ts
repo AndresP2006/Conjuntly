@@ -35,4 +35,18 @@ async function CraerPersona(datos: PersonaData) {
   }
 }
 
-export default { Login, CraerPersona };
+//PUT EDITAR DATOS DE RESIDENTE Y USUARIO
+async function EditarResidente(id: string, body: object) {
+  const url = Api.EditarResidente.putResidente(id);
+
+  const response = await fetch(url, {
+    method: Api.EditarResidente.method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  const message = response.json();
+  return message;
+}
+
+export default { Login, CraerPersona, EditarResidente };

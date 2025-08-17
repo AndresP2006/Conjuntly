@@ -4,6 +4,8 @@ import httpService from "../../services/httpService";
 import Icons from "../../utils/Icons";
 import OpenModal from "../../components/boton/OpenModal";
 import PersonaModal from "../../components/modals/Personas.modal";
+import authService from "../../services/authService";
+import { showSuccess, showError, showAlert } from "../../utils/Alertas";
 
 const Roles = [
   { id: 1, rol: "Administrador" },
@@ -18,16 +20,65 @@ interface Apartamento {
   Pe_telefono: string;
   Ap_numero: number;
 }
+
 function Datos() {
   const [edit, setEdit] = useState(false);
   const [datos, setDatos] = useState<PersonaUsuarioAPI | null>(null);
   const [original, setOriginal] = useState<PersonaUsuarioAPI | null>(null);
   const [apartamento, setApartamento] = useState<Apartamento[]>([]);
+  const [FormDato, setFormData] = useState({
+    nombre: "",
+    apellido: "",
+    telefono: "",
+    perfil: "",
+    usuario: "",
+    correo: "",
+  });
+
+  async function EditarDatos() {
+    if (!datos) return;
+
+    try {
+      const body = {
+        usuario: {
+          usuario: FormDato.usuario,
+          correo: FormDato.correo,
+        },
+        persona: {
+          nombre: FormDato.nombre,
+          apellido: FormDato.apellido,
+          telefono: FormDato.telefono,
+        },
+      };
+
+      const data = await authService.EditarResidente(String(datos.Pe_id), body);
+
+      if (data.estado === false) {
+        showAlert(data.message);
+      }
+
+      showSuccess(data.message);
+      setEdit(false);
+      ApartametnoResidente(String(datos.Ap_numero));
+    } catch (e) {
+      console.error(e);
+      showError("Error al editar residente");
+    }
+  }
 
   async function MostrarDatosUsuario(user: string) {
     const { data } = await httpService.ResidenteUsuario(user);
     setDatos(data);
     setOriginal(data);
+    // inicializar FormDato con los datos actuales
+    setFormData({
+      nombre: data.Pe_nombre || "",
+      apellido: data.Pe_apellidos || "",
+      telefono: data.Pe_telefono || "",
+      perfil: data.Pe_perfil || "",
+      usuario: data.Us_usuario || "",
+      correo: data.Us_correo || "",
+    });
   }
 
   function toggleEdit() {
@@ -35,7 +86,16 @@ function Datos() {
   }
 
   function CancelarEdit() {
-    setDatos(original);
+    if (original) {
+      setFormData({
+        nombre: original.Pe_nombre || "",
+        apellido: original.Pe_apellidos || "",
+        telefono: original.Pe_telefono || "",
+        perfil: original.Pe_Perfil || "",
+        usuario: original.Us_usuario || "",
+        correo: original.Us_correo || "",
+      });
+    }
     setEdit(false);
   }
 
@@ -69,8 +129,10 @@ function Datos() {
           <label className="font-semibold">Nombre</label>
           <input
             disabled={!edit}
-            value={datos?.Pe_nombre || ""}
-            onChange={(e) => setDatos({ ...datos!, Pe_nombre: e.target.value })}
+            value={FormDato.nombre}
+            onChange={(e) =>
+              setFormData({ ...FormDato, nombre: e.target.value })
+            }
             className={`rounded-xl p-2 w-full ${
               edit ? "bg-white border border-gray-300" : "bg-gray-100"
             }`}
@@ -81,9 +143,9 @@ function Datos() {
           <label className="font-semibold">Apellido</label>
           <input
             disabled={!edit}
-            value={datos?.Pe_apellidos || ""}
+            value={FormDato.apellido}
             onChange={(e) =>
-              setDatos({ ...datos!, Pe_apellidos: e.target.value })
+              setFormData({ ...FormDato, apellido: e.target.value })
             }
             className={`rounded-xl p-2 w-full ${
               edit ? "bg-white border border-gray-300" : "bg-gray-100"
@@ -95,8 +157,10 @@ function Datos() {
           <label className="font-semibold">Correo</label>
           <input
             disabled={!edit}
-            value={datos?.Us_correo || ""}
-            onChange={(e) => setDatos({ ...datos!, Us_correo: e.target.value })}
+            value={FormDato.correo}
+            onChange={(e) =>
+              setFormData({ ...FormDato, correo: e.target.value })
+            }
             className={`rounded-xl p-2 w-full ${
               edit ? "bg-white border border-gray-300" : "bg-gray-100"
             }`}
@@ -107,9 +171,9 @@ function Datos() {
           <label className="font-semibold">Teléfono</label>
           <input
             disabled={!edit}
-            value={datos?.Pe_telefono || ""}
+            value={FormDato.telefono}
             onChange={(e) =>
-              setDatos({ ...datos!, Pe_telefono: e.target.value })
+              setFormData({ ...FormDato, telefono: e.target.value })
             }
             className={`rounded-xl p-2 w-full ${
               edit ? "bg-white border border-gray-300" : "bg-gray-100"
@@ -121,9 +185,9 @@ function Datos() {
           <label className="font-semibold">Usuario</label>
           <input
             disabled={!edit}
-            value={datos?.Us_usuario || ""}
+            value={FormDato.usuario}
             onChange={(e) =>
-              setDatos({ ...datos!, Us_usuario: e.target.value })
+              setFormData({ ...FormDato, usuario: e.target.value })
             }
             className={`rounded-xl p-2 w-full ${
               edit ? "bg-white border border-gray-300" : "bg-gray-100"
@@ -134,7 +198,7 @@ function Datos() {
         <div>
           <label className="font-semibold">Rol</label>
           <select
-            disabled={!edit}
+            disabled
             value={datos?.Ro_id || ""}
             onChange={(e) =>
               setDatos({ ...datos!, Ro_id: Number(e.target.value) })
@@ -155,22 +219,18 @@ function Datos() {
         <div>
           <label className="font-semibold">Documento</label>
           <input
-            disabled={!edit}
+            disabled
             value={datos?.Pe_id || ""}
-            className={`rounded-xl p-2 w-full ${
-              edit ? "bg-white border border-gray-300" : "bg-gray-100"
-            }`}
+            className={`rounded-xl p-2 w-full bg-gray-100`}
           />
         </div>
 
         <div>
           <label className="font-semibold">Apartamento</label>
           <input
-            disabled={!edit}
+            disabled
             value={datos?.Ap_numero || ""}
-            className={`rounded-xl p-2 w-full ${
-              edit ? "bg-white border border-gray-300" : "bg-gray-100"
-            }`}
+            className={`rounded-xl p-2 w-full bg-gray-100`}
           />
         </div>
       </div>
@@ -179,17 +239,14 @@ function Datos() {
         {edit ? (
           <>
             <button
-              className={`px-6 py-2 rounded-full border font-bold border-black transition-colors ${
-                edit
-                  ? "bg-green-100 hover:bg-green-200"
-                  : "bg-yellow-100 hover:bg-yellow-200"
-              }`}
+              onClick={EditarDatos}
+              className="px-6 py-2 rounded-full border font-bold border-black bg-green-100 hover:bg-green-200 transition-colors"
             >
               Enviar
             </button>
             <button
               onClick={CancelarEdit}
-              className={`px-6 py-2 rounded-full border font-bold text-white border-black transition-colors bg-red-500 hover:bg-red-300`}
+              className="px-6 py-2 rounded-full border font-bold text-white border-black bg-red-500 hover:bg-red-300 transition-colors"
             >
               Cancelar
             </button>
@@ -197,18 +254,15 @@ function Datos() {
         ) : (
           <button
             onClick={toggleEdit}
-            className={`px-6 py-2 rounded-full border border-black transition-colors ${
-              edit
-                ? "bg-green-100 hover:bg-green-200"
-                : "bg-yellow-100 hover:bg-yellow-200"
-            }`}
+            className="px-6 py-2 rounded-full border border-black bg-yellow-100 hover:bg-yellow-200 transition-colors"
           >
             Editar
           </button>
         )}
       </div>
-      <h2 className="font-bold">Residentes del mismo apartamento</h2>
-      <div className="mt-6 max-h-40 overflow-y-auto rounded-lg border border-gray-300">
+
+      <h2 className="font-bold mt-6">Residentes del mismo apartamento</h2>
+      <div className="mt-2 max-h-40 overflow-y-auto rounded-lg border border-gray-300">
         <table className="min-w-full border-collapse text-center">
           <thead className="bg-gray-100 sticky top-0">
             <tr>

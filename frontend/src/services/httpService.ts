@@ -1,4 +1,4 @@
-//Funciones (get,put,delete) de residente,visitas y paquetes
+//Funciones (get,delete) de residente,visitas y paquetes
 import { Api } from "../const/Api";
 
 //Mostrar datos para el panel administrativo

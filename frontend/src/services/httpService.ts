@@ -95,6 +95,18 @@ async function ApartamentoResidentes(torre: string) {
   return data;
 }
 
+//GET CONTADOR DE VISITAS DENTRO DEL CONJUNTO
+async function ContadorVisitas() {
+  const response = await fetch(Api.ContadorVisitas.API_URL_CONTADOR, {
+    method: Api.ContadorVisitas.method,
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const { total } = await response.json();
+
+  return total;
+}
+
 export default {
   Residentes,
   Roles,
@@ -104,4 +116,5 @@ export default {
   ResidenteId,
   ResidenteUsuario,
   ApartamentoResidentes,
+  ContadorVisitas,
 };

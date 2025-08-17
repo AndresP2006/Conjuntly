@@ -51,4 +51,8 @@ export const Api = {
       `${import.meta.env.VITE_API_URL_USER}/usuario/${id}`,
     method: "PUT",
   },
+  ContadorVisitas: {
+    API_URL_CONTADOR: import.meta.env.VITE_API_URL_USER + "/Contador",
+    method: "GET",
+  },
 };

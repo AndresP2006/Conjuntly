@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import httpService from "../../services/httpService";
+import OpenModal from "../../components/boton/OpenModal";
+import VisitantesModal from "../../components/modals/Visitantes.modal";
 
 function Contador() {
   const [conteo, setConteo] = useState("");
@@ -21,12 +23,17 @@ function Contador() {
           <p className="text-9xl font-bold">{conteo}</p>
         </div>
       </div>
-      <button className="w-full font-bold text-center cursor-pointer p-3 rounded-2xl bg-gray-300 hover:bg-red-200 transition-colors">
-        + VISITAS
-      </button>
-      <button className="w-full cursor-pointer p-3 rounded-2xl bg-gray-300 hover:bg-red-200 font-bold text-center transition-colors">
-        + PAQUETES
-      </button>
+      <OpenModal
+        clases="w-full font-bold text-center cursor-pointer p-3 rounded-2xl bg-gray-300 hover:bg-red-200 transition-colors"
+        title="Ingresar Visitantes"
+        texto="+ VISITANTES"
+        modal={<VisitantesModal />}
+      />
+      <OpenModal
+        clases="w-full cursor-pointer p-3 rounded-2xl bg-gray-300 hover:bg-red-200 font-bold text-center transition-colors"
+        title="Ingresar Paquetes"
+        texto="+ PAQUETES"
+      />
     </div>
   );
 }

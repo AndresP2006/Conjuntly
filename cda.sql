@@ -1,227 +1,289 @@
-/*
-SQLyog Community v13.2.1 (64 bit)
-MySQL - 10.4.32-MariaDB : Database - cda
-*********************************************************************
-*/
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 17-09-2025 a las 02:05:27
+-- Versión del servidor: 9.1.0
+-- Versión de PHP: 8.3.14
 
-/*!40101 SET NAMES utf8 */;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-/*!40101 SET SQL_MODE=''*/;
 
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`cda` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-USE `cda`;
+--
+-- Base de datos: `cda`
+--
 
-/*Table structure for table `apartamento` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `apartamento`
+--
 
 DROP TABLE IF EXISTS `apartamento`;
-
-CREATE TABLE `apartamento` (
-  `Ap_id` int(10) NOT NULL AUTO_INCREMENT,
-  `To_id` int(10) NOT NULL,
-  `Ap_numero` int(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `apartamento` (
+  `Ap_id` int NOT NULL AUTO_INCREMENT,
+  `To_id` int NOT NULL,
+  `Ap_numero` int NOT NULL,
   PRIMARY KEY (`Ap_id`),
-  KEY `To_id` (`To_id`),
-  CONSTRAINT `apartamento_ibfk_1` FOREIGN KEY (`To_id`) REFERENCES `torre` (`To_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `To_id` (`To_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `apartamento` */
+--
+-- Volcado de datos para la tabla `apartamento`
+--
 
-insert  into `apartamento`(`Ap_id`,`To_id`,`Ap_numero`) values 
-(106,1,302),
-(107,2,212),
-(108,1,212),
-(109,1,302);
+INSERT INTO `apartamento` (`Ap_id`, `To_id`, `Ap_numero`) VALUES
+(124, 1, 100),
+(125, 2, 200);
 
-/*Table structure for table `paquete` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paquete`
+--
 
 DROP TABLE IF EXISTS `paquete`;
-
-CREATE TABLE `paquete` (
-  `Pa_id` int(10) NOT NULL AUTO_INCREMENT,
-  `Pa_estado` varchar(250) NOT NULL,
-  `Pa_descripcion` varchar(250) NOT NULL,
-  `Pa_fecha` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Pa_responsable` varchar(50) NOT NULL,
-  `Pe_id` int(11) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `paquete` (
+  `Pa_id` int NOT NULL AUTO_INCREMENT,
+  `Pa_estado` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Pa_descripcion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Pa_fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Pa_responsable` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Pe_id` int DEFAULT NULL,
+  `Pa_recibe` int DEFAULT NULL,
+  `Pa_fecha_recibido` timestamp NULL DEFAULT NULL,
+  `vista` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Pa_id`),
-  KEY `Pe_id` (`Pe_id`),
-  CONSTRAINT `paquete_ibfk_1` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`),
-  CONSTRAINT `paquete_ibfk_2` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `Pe_id` (`Pe_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `paquete` */
+-- --------------------------------------------------------
 
-insert  into `paquete`(`Pa_id`,`Pa_estado`,`Pa_descripcion`,`Pa_fecha`,`Pa_responsable`,`Pe_id`) values 
-(1,'activo','Pc gamer','2024-11-07 00:00:00','Stiven',NULL),
-(2,'activo','PC gamer','2024-11-07 00:00:00','Juan',NULL),
-(3,'activo','PortÃ¡til','2024-11-08 00:00:00','Juan',NULL),
-(7,'bueno','en caja','2024-11-07 00:00:00','portero',12345),
-(9,'Fragil','esd','2024-11-20 00:00:00','Guardia_2',123),
-(14,'Bodega','Pc gamer','2025-03-29 00:00:00','Luis',1043);
-
-/*Table structure for table `persona` */
+--
+-- Estructura de tabla para la tabla `persona`
+--
 
 DROP TABLE IF EXISTS `persona`;
-
-CREATE TABLE `persona` (
-  `Pe_id` int(20) NOT NULL,
-  `Pe_nombre` varchar(50) NOT NULL,
-  `Pe_apellidos` varchar(50) NOT NULL,
-  `Pe_telefono` varchar(50) NOT NULL,
-  `Us_id` int(11) DEFAULT NULL,
-  `Ap_id` int(10) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `persona` (
+  `Pe_id` int NOT NULL,
+  `Pe_nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Pe_apellidos` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Pe_telefono` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Us_id` int DEFAULT NULL,
+  `Pe_Perfil` varchar(400) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Ap_id` int DEFAULT NULL,
   PRIMARY KEY (`Pe_id`),
   KEY `U_id` (`Us_id`),
-  KEY `Ap_id` (`Ap_id`),
-  CONSTRAINT `persona_ibfk_3` FOREIGN KEY (`Us_id`) REFERENCES `usuario` (`Us_id`),
-  CONSTRAINT `persona_ibfk_4` FOREIGN KEY (`Ap_id`) REFERENCES `apartamento` (`Ap_id`)
+  KEY `Ap_id` (`Ap_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `persona` */
+--
+-- Volcado de datos para la tabla `persona`
+--
 
-insert  into `persona`(`Pe_id`,`Pe_nombre`,`Pe_apellidos`,`Pe_telefono`,`Us_id`,`Ap_id`) values 
-(123,'JD','RP','3000000',NULL,106),
-(1043,'Arthur','Pendragon','3000000',1043,108),
-(2006,'josimar','suñoga','12121312313',2006,NULL),
-(4567,'Naruto','Uzumaki','3000000',4567,109),
-(12345,'David','Rua','30000000',NULL,108);
+INSERT INTO `persona` (`Pe_id`, `Pe_nombre`, `Pe_apellidos`, `Pe_telefono`, `Us_id`, `Pe_Perfil`, `Ap_id`) VALUES
+(12345, 'juan', 'rua', '300', 12345, 'https://i.pinimg.com/736x/f8/49/19/f849195436996479799bbf75e61ecc7a.jpg', 124),
+(1042851729, 'Andres David', 'Pereira  Puello', '3202116434', 1042851729, 'https://i.pinimg.com/736x/68/24/f0/6824f0f3d30c4e0015c26a70052e3045.jpg', 124),
+(1042851730, 'Yaseth', 'Bujato', '32846354839', 1042851730, 'https://i.pinimg.com/736x/9f/ef/ec/9fefec565f3499055596fb8e55b7edb8.jpg', 124),
+(1042851731, 'Maria', 'Rodriquez', '3003489600', 1042851731, 'https://i.pinimg.com/736x/f8/8b/d4/f88bd4a2f1fddb2850dced25e955cc1d.jpg', 125),
+(1042851732, 'Stiven', 'Catalan', '383483493843948', 1042851732, 'https://i.pinimg.com/736x/f8/8b/d4/f88bd4a2f1fddb2850dced25e955cc1d.jpg', 125);
 
-/*Table structure for table `registro` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro`
+--
 
 DROP TABLE IF EXISTS `registro`;
-
-CREATE TABLE `registro` (
-  `Re_id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `registro` (
+  `Re_id` int NOT NULL AUTO_INCREMENT,
   `Re_fecha_entrada` date NOT NULL,
   `Re_hora_entrada` time NOT NULL,
   `Re_hora_salida` time NOT NULL,
-  `Re_motivo` varchar(50) NOT NULL,
-  `Vi_departamento` varchar(50) NOT NULL,
-  `Pe_id` int(20) NOT NULL,
-  `Vi_id` int(10) NOT NULL,
+  `Re_motivo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Use_visit` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Vi_departamento` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Pe_id` int NOT NULL,
+  `Vi_id` int NOT NULL,
+  `vista` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Re_id`),
   KEY `Vi_id` (`Vi_id`),
-  KEY `Pe_id` (`Pe_id`),
-  CONSTRAINT `fk_registro_persona` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`),
-  CONSTRAINT `registro_ibfk_1` FOREIGN KEY (`Vi_id`) REFERENCES `visitantes` (`Vi_id`),
-  CONSTRAINT `registro_ibfk_2` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `Pe_id` (`Pe_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `registro` */
+--
+-- Volcado de datos para la tabla `registro`
+--
 
-insert  into `registro`(`Re_id`,`Re_fecha_entrada`,`Re_hora_entrada`,`Re_hora_salida`,`Re_motivo`,`Vi_departamento`,`Pe_id`,`Vi_id`) values 
-(21,'2024-11-25','21:33:17','21:36:02','Comer ramen','106',123,45678),
-(22,'2024-11-25','21:36:54','00:00:00','dattebayo','108',12345,45678),
-(24,'2024-11-26','10:10:12','00:00:00','Pelear','106',123,1267),
-(36,'2025-03-29','13:34:02','00:00:00','Visitar a mi primo','108',1043,1243);
+INSERT INTO `registro` (`Re_id`, `Re_fecha_entrada`, `Re_hora_entrada`, `Re_hora_salida`, `Re_motivo`, `Use_visit`, `Vi_departamento`, `Pe_id`, `Vi_id`, `vista`) VALUES
+(120, '0000-00-00', '00:00:00', '00:00:00', 'Ver a un amigo', 'Andres', '100', 12345, 123, 0);
 
-/*Table structure for table `rol` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
 
 DROP TABLE IF EXISTS `rol`;
-
-CREATE TABLE `rol` (
-  `Ro_id` int(10) NOT NULL AUTO_INCREMENT,
-  `Ro_tipo` varchar(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rol` (
+  `Ro_id` int NOT NULL AUTO_INCREMENT,
+  `Ro_tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`Ro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `rol` */
+--
+-- Volcado de datos para la tabla `rol`
+--
 
-insert  into `rol`(`Ro_id`,`Ro_tipo`) values 
-(1,'Administrador'),
-(2,'Guardia'),
-(3,'Residente');
+INSERT INTO `rol` (`Ro_id`, `Ro_tipo`) VALUES
+(1, 'Administrador'),
+(2, 'Guardia'),
+(3, 'Residente');
 
-/*Table structure for table `solicitudes_actualizacion` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitudes_actualizacion`
+--
 
 DROP TABLE IF EXISTS `solicitudes_actualizacion`;
-
-CREATE TABLE `solicitudes_actualizacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_residente` int(11) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `correo_nuevo` varchar(255) NOT NULL,
-  `telefono_nuevo` varchar(50) NOT NULL,
-  `torre_nuevo` varchar(10) NOT NULL,
-  `apartamento_nuevo` varchar(50) NOT NULL,
-  `estado` enum('pendiente','aprobada','rechazada') DEFAULT 'pendiente',
-  `razon_rechazo` varchar(255) DEFAULT NULL,
-  `fecha_solicitud` timestamp NOT NULL DEFAULT current_timestamp(),
+CREATE TABLE IF NOT EXISTS `solicitudes_actualizacion` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_residente` int NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `correo_nuevo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `correo_viejo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `telefono_nuevo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `telefono_viejo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `estado` enum('pendiente','aprobada','rechazada') CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT 'pendiente',
+  `razon_rechazo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `fecha_solicitud` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `vista` tinyint(1) NOT NULL DEFAULT '0',
+  `vista_resident` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
-/*Data for the table `solicitudes_actualizacion` */
+-- --------------------------------------------------------
 
-insert  into `solicitudes_actualizacion`(`id`,`id_residente`,`nombre`,`correo_nuevo`,`telefono_nuevo`,`torre_nuevo`,`apartamento_nuevo`,`estado`,`razon_rechazo`,`fecha_solicitud`) values 
-(1,1043,'Arthur Pendragon','Arthurdd@gmail.com','300004300','A','212','pendiente',NULL,'2025-03-31 13:53:43'),
-(12,4567,'Naruto Uzumaki','Narutodd@gmail.com','300003400','A','302','pendiente',NULL,'2025-03-31 15:10:35');
-
-/*Table structure for table `torre` */
+--
+-- Estructura de tabla para la tabla `torre`
+--
 
 DROP TABLE IF EXISTS `torre`;
-
-CREATE TABLE `torre` (
-  `To_id` int(10) NOT NULL,
-  `To_letra` varchar(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `torre` (
+  `To_id` int NOT NULL,
+  `To_letra` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`To_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `torre` */
+--
+-- Volcado de datos para la tabla `torre`
+--
 
-insert  into `torre`(`To_id`,`To_letra`) values 
-(1,'A'),
-(2,'B'),
-(3,'C');
+INSERT INTO `torre` (`To_id`, `To_letra`) VALUES
+(1, 'A'),
+(2, 'B');
 
-/*Table structure for table `usuario` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
 
 DROP TABLE IF EXISTS `usuario`;
-
-CREATE TABLE `usuario` (
-  `Us_id` int(10) NOT NULL,
-  `Us_usuario` varchar(50) NOT NULL,
-  `Us_contrasena` varchar(255) DEFAULT NULL,
-  `Us_correo` varchar(100) NOT NULL,
-  `Ro_id` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `Us_id` int NOT NULL,
+  `Us_usuario` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Us_contrasena` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Us_correo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Ro_id` int NOT NULL,
+  `estado` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`Us_id`),
-  KEY `C_id` (`Ro_id`),
-  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Ro_id`) REFERENCES `rol` (`Ro_id`)
+  KEY `C_id` (`Ro_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `usuario` */
+--
+-- Volcado de datos para la tabla `usuario`
+--
 
-insert  into `usuario`(`Us_id`,`Us_usuario`,`Us_contrasena`,`Us_correo`,`Ro_id`) values 
-(123,'JD','d12345','jrua1043@gmail.com',2),
-(1043,'Arthur','12345','Arthur@gmail.com',3),
-(2006,'Juan','12345','charry@gmail.com',1),
-(4567,'Naruto','12345','Naruto@gmail.com',3);
+INSERT INTO `usuario` (`Us_id`, `Us_usuario`, `Us_contrasena`, `Us_correo`, `Ro_id`, `estado`) VALUES
+(12345, 'juanos', '$2b$10$JOMiACD6cUYXdlnQ.xNYL.ZrmDVIRIEkdjfYa9AyppBUKbHgoD5jS', 'juano@gmail.com', 1, 'activo'),
+(1042851729, 'Andres', '$2b$10$r.GNRSYBgJLlHEVV1WIrJ.ceCQV478HV27KKc8BIT.wulq9AoLktu', 'pereirapuelloandresdavid@gmail.com', 3, 'activo'),
+(1042851730, 'yasethB', '$2b$10$hKrduiBHipfM0sz7iGhPEuKAVCrY2CVKzrwD6TYVPbQdOLp0zv5FC', 'yaseth@gmail.com', 3, 'activo'),
+(1042851731, 'Maria_Jose', '$2b$10$R09sWsxHzT6Vjm2A9OM9TObicA9bcqYRWwhyGgHFAQre22SpdY6LO', 'MariaJose@gmail.com', 2, 'activo'),
+(1042851732, 'StivenC', '$2b$10$AWpLlPyhxAnhMfDA4qAbo.6EcEB/6MKHIT5N3HX8/1ld21gjaMTri', 'stiven@gmail.com', 2, 'activo');
 
-/*Table structure for table `visitantes` */
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `visitantes`
+--
 
 DROP TABLE IF EXISTS `visitantes`;
-
-CREATE TABLE `visitantes` (
-  `Vi_id` int(10) NOT NULL,
-  `Vi_nombres` varchar(50) NOT NULL,
-  `Vi_apellidos` varchar(50) NOT NULL,
-  `Vi_telefono` varchar(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS `visitantes` (
+  `Vi_id` int NOT NULL,
+  `Vi_nombres` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Vi_apellidos` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Vi_telefono` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Vi_permiso` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`Vi_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `visitantes` */
+--
+-- Volcado de datos para la tabla `visitantes`
+--
 
-insert  into `visitantes`(`Vi_id`,`Vi_nombres`,`Vi_apellidos`,`Vi_telefono`) values 
-(0,'','',''),
-(1243,'Andres','Pereira','3333332211'),
-(1267,'Goku','Son','30000000'),
-(45678,'Naruto','Uzumaki','3454345');
+INSERT INTO `visitantes` (`Vi_id`, `Vi_nombres`, `Vi_apellidos`, `Vi_telefono`, `estado`, `Vi_permiso`) VALUES
+(123, 'Andres', 'Pereira', '3003489600', 'Activo', 'Porter');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `apartamento`
+--
+ALTER TABLE `apartamento`
+  ADD CONSTRAINT `apartamento_ibfk_1` FOREIGN KEY (`To_id`) REFERENCES `torre` (`To_id`);
+
+--
+-- Filtros para la tabla `paquete`
+--
+ALTER TABLE `paquete`
+  ADD CONSTRAINT `paquete_ibfk_1` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`),
+  ADD CONSTRAINT `paquete_ibfk_2` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`);
+
+--
+-- Filtros para la tabla `persona`
+--
+ALTER TABLE `persona`
+  ADD CONSTRAINT `persona_ibfk_3` FOREIGN KEY (`Us_id`) REFERENCES `usuario` (`Us_id`),
+  ADD CONSTRAINT `persona_ibfk_4` FOREIGN KEY (`Ap_id`) REFERENCES `apartamento` (`Ap_id`);
+
+--
+-- Filtros para la tabla `registro`
+--
+ALTER TABLE `registro`
+  ADD CONSTRAINT `fk_registro_persona` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`),
+  ADD CONSTRAINT `registro_ibfk_1` FOREIGN KEY (`Vi_id`) REFERENCES `visitantes` (`Vi_id`),
+  ADD CONSTRAINT `registro_ibfk_2` FOREIGN KEY (`Pe_id`) REFERENCES `persona` (`Pe_id`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Ro_id`) REFERENCES `rol` (`Ro_id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

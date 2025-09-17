@@ -8,7 +8,7 @@ const router = Router();
 
 //Rutas del sistema
 
-//Login
+//Login & Change password
 router.post("/login", userControllers.Login);
 
 //Administrador

@@ -67,7 +67,7 @@ FROM
 }
 
 async function getDatosPersonaUser(user: string): Promise<persona | null> {
-  console.log(user);
+  // console.log(user);
   const sql = `
     SELECT *
     FROM persona p

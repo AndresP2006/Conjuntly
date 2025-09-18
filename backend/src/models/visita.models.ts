@@ -8,10 +8,12 @@ async function CountVisit(): Promise<number> {
      FROM visitantes AS v
      INNER JOIN registro AS r ON v.Vi_id = r.Vi_id
      WHERE r.Re_hora_entrada > "00:00:00"
-       AND v.estado = "permitido"`
+       AND v.estado = "permitido" || v.estado = "activo"`
   );
 
   return rows[0].total;
 }
+
+// async function getAllVisit
 
 export default { CountVisit };

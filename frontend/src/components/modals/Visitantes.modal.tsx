@@ -1,4 +1,5 @@
 import Icons from "../../utils/Icons";
+import Apartamentos from "../select/Apartamentos";
 
 type ModalFormVisita = {
   onClose?: () => void;
@@ -125,6 +126,9 @@ function VisitantesModal({ onClose }: ModalFormVisita) {
           <fieldset className="border border-black p-4 flex rounded-md max-w-xl mx-auto">
             <legend className="px-2 font-semibold text-gray-700">
               Apartamento
+              <div>
+                <Apartamentos/>
+              </div>
             </legend>
           </fieldset>
 

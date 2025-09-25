@@ -16,6 +16,7 @@ function Apartamentos({ value, onchange }: any) {
   const [apartamentos, setApartamentos] = useState<Apartamento[]>([]);
   const [apartamentoSeleccionado, setApartamentoSeleccionado] =
     useState<string>("");
+  // const [residentesSeleccionados, setResidentesSeleccionados] = useState<string>("");
 
   useEffect(() => {
     async function cargarTorres() {
@@ -57,6 +58,8 @@ function Apartamentos({ value, onchange }: any) {
     }
     cargarApartamentos();
   }, [torreSeleccionada]);
+
+  
 
   return (
     <div className="flex space-x-6 items-center ">
@@ -101,6 +104,12 @@ function Apartamentos({ value, onchange }: any) {
             </option>
           ))}
         </select>
+      </div>
+      <div>
+        <label htmlFor="select-residentes" className="mb-1 font-semibold">
+          Residentes
+        </label>
+
       </div>
     </div>
   );

@@ -24,10 +24,10 @@ router.get("/Contador", visitaControllers.Contador);
 //Apartamentos y Torres
 router.get("/Torre", apartamentoControllers.Torres);
 router.get("/torre/:letra/apartamentos", apartamentoControllers.Apartamento);
+router.get("/apartamento/:torre", apartamentoControllers.ApartamentoResidentes);
 
 //Residente
 router.get("/usuario/:user", personaControllers.MostrarPersonasUser);
-router.get("/apartamento/:torre", apartamentoControllers.ApartamentoResidentes);
 router.put("/usuario/:id", personaControllers.EditarResidente);
 
 //Ruta falsa

@@ -51,15 +51,33 @@ function ManiUser() {
         </p>
       </div>
 
-      <button className="w-full cursor-pointer py-3 mb-3 rounded-2xl bg-gray-300 hover:bg-gray-200 font-medium transition-colors">
-        Información
-      </button>
-      <button className="w-full py-3 mb-3 rounded-2xl bg-gray-300 hover:bg-gray-200 font-medium transition-colors cursor-pointer">
-        <Link to={"/Apartamento"}>Registrar Visitas</Link>
-      </button>
-      <button className="w-full cursor-pointer py-3 rounded-2xl bg-gray-300 hover:bg-red-200 font-medium transition-colors">
-        <Link to={"/"}>Cerrar Sesión</Link>
-      </button>
+      <Link
+        to={"/Usuario"}
+        className="w-full cursor-pointer py-3 mb-3 rounded-2xl bg-gray-300 hover:bg-gray-200 font-medium transition-colors text-center"
+      >
+        <button className="cursor-pointer hover:text-red-600">
+          Informacion
+        </button>
+      </Link>
+
+      <Link
+        to={"/RegistroUsuario"}
+        className="w-full py-3 mb-3 rounded-2xl bg-gray-300 hover:bg-gray-200 font-medium transition-colors cursor-pointer text-center"
+      >
+        <button className="cursor-pointer hover:text-red-600">
+          Registrar Visitas
+        </button>
+      </Link>
+
+      <Link
+        to={"/"}
+        className="w-full cursor-pointer py-3 rounded-2xl bg-gray-300 hover:bg-red-200 font-medium transition-colors text-center"
+      >
+        <button className="cursor-pointer hover:text-red-600">
+          {" "}
+          Cerrar Sesión
+        </button>
+      </Link>
     </div>
   );
 }

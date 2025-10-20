@@ -12,6 +12,7 @@ const Icons = {
   activar: () => <i className="fa-solid fa-circle-check"></i>,
   Notification: () => <i className="fa-solid fa-bell"></i>,
   Porteria: () => <i className="fa-solid fa-address-card"></i>,
+  Habrir: () => <i className="fa-solid fa-x"></i>,
 };
 
 export default Icons;

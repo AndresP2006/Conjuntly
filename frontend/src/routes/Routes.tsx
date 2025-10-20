@@ -5,6 +5,7 @@ import Porteria from "../pages/porteria/Porteria";
 import Usuario from "../pages/usuarios/Usuario";
 import Notificaciones from "../pages/notificaciones/Notificaciones";
 import NotFound from "../pages/NotFound";
+import RegistrosVisita from "../pages/usuarios/RegistrosVisita";
 
 function AppRoutes() {
   return (
@@ -13,16 +14,21 @@ function AppRoutes() {
       //Crear Usuario y recuperar contraseña
       <Route path="/CreateUser" element={"/"} />
       <Route path="/RecoverKey" element={"/"} />
+      
       //Usuario
       <Route path="/Usuario" element={<Usuario />} />
       <Route path="/UserNotific" element={<Notificaciones />} />
+      <Route path="/RegistroUsuario" element={<RegistrosVisita />} />
+
       //Administrador
       <Route path="/Administrador" element={<Administrador />} />
       <Route path="/Visitas" element={"#"} />
       <Route path="/Paquetes" element={"#"} />
       <Route path="/Apartamentos" element={"#"} />
+
       //Porteria
       <Route path="/Porteria" element={<Porteria />} />
+
       //Ruta inexistente
       <Route path="*" element={<NotFound />} />
     </Routes>

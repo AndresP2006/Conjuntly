@@ -31,13 +31,17 @@ function RegistrosUsuario() {
         </div>
       </div>
       {/* Tabla de registro */}
+      <br />
+      <br />
       <div>
-        <div className="grid grid-cols-2 gap-4">
-          <h2 className="font-bold mt-6">Permiso de visitas Registradas</h2>
-          <button>{Icons.Habrir()}</button>
-        </div>
+        <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold">Permisos de Visitas</h2>
+        <span className="material-icons cursor-pointer text-3xl border-2 bg-gray-300 ">
+          {Icons.Habrir()}
+        </span>
+      </div>
 
-        <div className="mt-2 max-h-40 overflow-y-auto rounded-lg border border-b-gray-300">
+        <div className="mt-2 max-h-100 overflow-y-auto rounded-lg border border-b-gray-300">
           <table className="min-w-full border-collapse text-center">
             <thead className="bg-gray-100 sticky top-0">
               <tr>
@@ -49,7 +53,9 @@ function RegistrosUsuario() {
               </tr>
             </thead>
             <tbody>
-              <tr>{/* Informacion  no terminada */}</tr>
+              <tr className="border-t">
+                {/* <td className="p-2">hola</td> */}
+              </tr>
             </tbody>
           </table>
         </div>

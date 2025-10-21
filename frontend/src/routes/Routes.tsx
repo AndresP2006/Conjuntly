@@ -11,6 +11,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      
       //Crear Usuario y recuperar contraseña
       <Route path="/CreateUser" element={"/"} />
       <Route path="/RecoverKey" element={"/"} />

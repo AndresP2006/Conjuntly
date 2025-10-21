@@ -203,11 +203,8 @@ function Datos() {
             onChange={(e) =>
               setDatos({ ...datos!, Ro_id: Number(e.target.value) })
             }
-            className={`rounded-xl p-2 w-full ${
-              edit ? "bg-white border border-gray-300" : "bg-gray-100"
-            }`}
+            className={`rounded-xl p-2 w-full bg-gray-100`}
           >
-            <option value="">Seleccione</option>
             {Roles.map((r) => (
               <option key={r.id} value={r.id}>
                 {r.rol}
